@@ -1,25 +1,38 @@
 import logo from './logo.svg';
 import './App.css';
+import Clock from "./components/Clock";
+import Participants from "./components/Participants";
+import {useState} from "react";
+import {store} from "./redux/store";
+import Result from "./components/Result";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [showParticipants, setShowParticipants] = useState(true)
+    const [showClock, setShowClock] = useState(false)
+    const [showResult, setShowResult] = useState(false)
+    const [results, setResults] = useState(store.getState().results)
+
+
+    function onStartClick() {
+        setShowParticipants(false)
+        setShowClock(true)
+    }
+    function onStopClick() {
+        setShowClock(false)
+        setShowResult(true)
+
+
+
+    }
+
+    return (
+        <div className="App">
+            {showParticipants ? <Participants onStartClick={onStartClick}/> : null}
+            {showClock ? <Clock onStopClick={onStopClick}/> : null}
+            {showResult ? <Result/> : null}
+
+        </div>
+    );
 }
 
 export default App;
